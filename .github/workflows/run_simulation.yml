@@ -39,7 +39,11 @@ jobs:
         hostname
 
     - name: Log into registry
-      run: echo "${{ secrets.GPR_PAT }}" | sudo docker login docker.pkg.github.com -u ${{ secrets.GPR_USER }} --password-stdin
+      uses: docker/login-action@v1
+      with:
+        registry: docker.pkg.github.com
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run Docker container.
       run: |
