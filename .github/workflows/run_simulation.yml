@@ -57,20 +57,25 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GPR_PAT }}
         RUNNER_VERSION: ${{ secrets.RUNNER_VERSION }}
 
-    - uses: actions/upload-artifact@v1
+    - name: Determine which artifacts to keep
+      id: keep-artifacts
       if: always()
+      run: echo '::set-output name=result::${{secrets.KEEP_ARTIFACTS}}'
+
+    - uses: actions/upload-artifact@v1
+      if: always() && contains(steps.keep-artifacts.outputs.result, 'output')
       with:
         name: "model-run-outputs-${{ matrix.model.slug }}"
         path: output
 
     - uses: actions/upload-artifact@v1
-      if: always()
+      if: always() && contains(steps.keep-artifacts.outputs.result, 'input')
       with:
         name: "model-run-inputs-${{ matrix.model.slug }}"
         path: input
 
     - uses: actions/upload-artifact@v1
-      if: always()
+      if: always() && contains(steps.keep-artifacts.outputs.result, 'log')
       with:
         name: "logs-${{ matrix.model.slug }}"
         path: log

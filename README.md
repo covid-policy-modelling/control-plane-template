@@ -22,9 +22,9 @@ Note that the full field value is first extracted from the input payload in the 
 
 ### Artifact Collection
 
-There are a number of job steps that upload artifacts back to GitHub Actions to be stored with the job run.
+There are a number of job steps that can upload artifacts back to GitHub Actions to be stored with the job run.
 Given that the data is copied by the model runner into an Azure Storage container, these steps are purely optional.
-They are most helpful for debugging purposes, but can be commented out or removed during normal operation.
+These are not run by default, but can be enabled through the use of secrets (below).
 
 ## Docker Compose
 
@@ -88,6 +88,14 @@ Azure storage credentials for storing the results of each model run.
 ```shell script
 AZURE_STORAGE_ACCOUNT
 AZURE_STORAGE_CONTAINER
+```
+
+### Artifacts
+
+To enable artifact storage within GitHub Actions, set the following to a comma-separated list containing the types of artifact you want to retain.
+
+```shell script
+KEEP_ARTIFACTS=input,output,log
 ```
 
 ## Example: Multiple environments with promotion
