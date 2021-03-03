@@ -20,6 +20,8 @@ jobs:
       matrix:
         model: ${{ github.event.client_payload.models }}
 
+    name: run-${{ matrix.model.slug }}
+
     steps:
     - uses: actions/checkout@v2
     - name: Create input file from params
