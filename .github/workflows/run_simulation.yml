@@ -1,0 +1,79 @@
+
+name: Run Simulation
+
+on:
+  repository_dispatch:
+    types: run-simulation
+
+env:
+  GITHUB_REPO: ${{ github.repository }}
+
+jobs:
+  # This workflow contains a single job called "run"
+  run:
+    runs-on: self-hosted
+
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        model: ${{ github.event.client_payload.models }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create input file from params
+      run: |
+        echo '${{ toJson(github.event.client_payload) }}' > raw-file.json
+        jq '.models = [${{ toJson(matrix.model) }}'] raw-file.json > runnerInputFile.json
+
+    - name: Echo the contents of the file
+      run: |
+        mkdir -p input output log
+        cp runnerInputFile.json input/
+        cp runnerInputFile.json output/
+        cat input/runnerInputFile.json
+        pwd
+        hostname
+
+    - name: Log into registry
+      run: echo "${{ secrets.GPR_PAT }}" | sudo docker login docker.pkg.github.com -u ${{ secrets.GPR_USER }} --password-stdin
+
+    - name: Run Docker container.
+      run: |
+        sudo -E docker-compose pull -q model-runner
+        sudo -E docker-compose run --rm model-runner
+      env:
+        API_URL: ${{secrets.API_URL}}
+        API_SHARED_SECRET: ${{secrets.API_SHARED_SECRET}}
+        AZURE_STORAGE_ACCOUNT: ${{secrets.AZURE_STORAGE_ACCOUNT}}
+        AZURE_STORAGE_CONTAINER: ${{secrets.AZURE_STORAGE_CONTAINER}}
+        DOCKER_USER: ${{ secrets.GPR_USER }}
+        DOCKER_PASSWORD: ${{ secrets.GPR_PAT }}
+        WOLFRAM_USER: ${{ secrets.WOLFRAM_USER }}
+        WOLFRAM_PASSWORD: ${{ secrets.WOLFRAM_PASSWORD }}
+        RUNNER_VERSION: ${{ secrets.RUNNER_VERSION }}
+
+    - uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: "model-run-outputs-${{ matrix.model.slug }}"
+        path: output
+
+    - uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: "model-run-inputs-${{ matrix.model.slug }}"
+        path: input
+
+    - uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: "logs-${{ matrix.model.slug }}"
+        path: log
+
+    - name: Cleanup
+      if: always()
+      run: |
+        rm -rf log output inputFile.json
+        sudo docker system prune --all --force --volumes
