@@ -61,10 +61,9 @@ RUNNER_VERSION
 
 ### API
 
-The URL and shared secret for the instance of the [web-ui](https://github.com/covid-modeling/web-ui) that you want to coordinate with are also stored as secrets.
+The shared secret for the instance of the [web-ui](https://github.com/covid-modeling/web-ui) that you want to coordinate with.
 
 ```shell script
-API_URL
 API_SHARED_SECRET
 ```
 
@@ -89,14 +88,6 @@ Azure storage credentials for storing the results of each model run.
 ```shell script
 AZURE_STORAGE_ACCOUNT
 AZURE_STORAGE_CONTAINER
-```
-
-### Wolfram
-
-The [modeling-covid](https://github.com/covid-modeling/model-runner/tree/master/packages/modelingcovid-covidmodel) model is written in Mathematica and requires a license for the Wolfram Engine.
-```shell script
-WOLFRAM_PASSWORD
-WOLFRAM_USER
 ```
 
 ## Example: Multiple environments with promotion

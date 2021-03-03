@@ -50,14 +50,11 @@ jobs:
         sudo -E docker-compose pull -q model-runner
         sudo -E docker-compose run --rm model-runner
       env:
-        API_URL: ${{secrets.API_URL}}
         API_SHARED_SECRET: ${{secrets.API_SHARED_SECRET}}
         AZURE_STORAGE_ACCOUNT: ${{secrets.AZURE_STORAGE_ACCOUNT}}
         AZURE_STORAGE_CONTAINER: ${{secrets.AZURE_STORAGE_CONTAINER}}
         DOCKER_USER: ${{ secrets.GPR_USER }}
         DOCKER_PASSWORD: ${{ secrets.GPR_PAT }}
-        WOLFRAM_USER: ${{ secrets.WOLFRAM_USER }}
-        WOLFRAM_PASSWORD: ${{ secrets.WOLFRAM_PASSWORD }}
         RUNNER_VERSION: ${{ secrets.RUNNER_VERSION }}
 
     - uses: actions/upload-artifact@v1
