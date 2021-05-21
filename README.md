@@ -6,7 +6,7 @@ This model is meant to be used as a [template to create similar repositories](ht
 
 ## Run Simulation
 
-The [web-ui](https://github.com/covid-modeling/web-ui) initiates model runs by sending a [repository_dispatch](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#repository_dispatch) event to the control plane repo.
+The [web-ui](https://github.com/covid-policy-modelling/web-ui) initiates model runs by sending a [repository_dispatch](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#repository_dispatch) event to the control plane repo.
 The configuration for the model run is passed as JSON in the `client_payload` portion of this event when it is triggered from the UI.
 
 ### Build Matrix
@@ -28,7 +28,7 @@ These are not run by default, but can be enabled through the use of secrets (bel
 
 ## Docker Compose
 
-The `docker-compose.yaml` file is used as an easy way to store the complete configuration that is required to execute the [model-runner](https://github.com/covid-modeling/model-runner) container.
+The `docker-compose.yaml` file is used as an easy way to store the complete configuration that is required to execute the [model-runner](https://github.com/covid-policy-modelling/model-runner) container.
 The most import parts are the volume mounts for the input and output container as well as the Docker socket because the runner requires being able to use docker-in-docker.
 
 ## Self-hosted Runners
@@ -55,13 +55,13 @@ RUNNER_VERSION
 
 1. Go to Settings > Secrets.
 1. Set the value of `RUNNER_VERSION` to the version of the `model-runner` package that you want this control plane to use when running simulations.
-   - The available package versions can be found [here](https://github.com/covid-modeling/model-runner/packages/165741).
+   - The available package versions can be found [here](https://github.com/covid-policy-modelling/model-runner/packages/165741).
    - Note that package versions are taken from the last segment of branch names in the `model-runner` repo (e.g. `master` corresponds to the `master` branch, `0.3.0` corresponds to the tagged version `v0.3.0`, and `my-branch` corresponds to any branch named `some-prefix/my-branch`).
    - The `model-runner` repo is configured to automatically publish Docker images on updates to the different model packages it contains. For any additional models, you may need to set up similar automation, or manually publish their Docker images to a registry.
 
 ### API
 
-The shared secret for the instance of the [web-ui](https://github.com/covid-modeling/web-ui) that you want to coordinate with.
+The shared secret for the instance of the [web-ui](https://github.com/covid-policy-modelling/web-ui) that you want to coordinate with.
 
 ```shell script
 API_SHARED_SECRET
