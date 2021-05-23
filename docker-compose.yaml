@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
   model-runner:
-    image: docker.pkg.github.com/covid-modeling/model-runner/model-runner:${RUNNER_VERSION:-master}
+    image: ghcr.io/covid-policy-modelling/model-runner/model-runner:${RUNNER_VERSION:-master}
     environment:
       - GITHUB_RUN_ID
       - GITHUB_EVENT_PATH
