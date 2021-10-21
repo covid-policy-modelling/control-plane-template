@@ -11,6 +11,7 @@ services:
       - MODEL_RUNNER_OUTPUT_DIR=/data/output
       - AZURE_STORAGE_ACCOUNT
       - AZURE_STORAGE_CONTAINER
+      - AZURE_STORAGE_KEY
       - DOCKER_USER
       - DOCKER_PASSWORD
       - WOLFRAM_USER

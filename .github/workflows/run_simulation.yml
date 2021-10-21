@@ -53,6 +53,7 @@ jobs:
         API_SHARED_SECRET: ${{secrets.API_SHARED_SECRET}}
         AZURE_STORAGE_ACCOUNT: ${{secrets.AZURE_STORAGE_ACCOUNT}}
         AZURE_STORAGE_CONTAINER: ${{secrets.AZURE_STORAGE_CONTAINER}}
+        AZURE_STORAGE_KEY: ${{secrets.AZURE_STORAGE_KEY}}
         DOCKER_USER: ${{ secrets.GPR_USER }}
         DOCKER_PASSWORD: ${{ secrets.GPR_PAT }}
         RUNNER_VERSION: ${{ secrets.RUNNER_VERSION }}
