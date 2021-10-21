@@ -85,4 +85,3 @@ jobs:
       if: always()
       run: |
         rm -rf log output inputFile.json
-        sudo docker system prune --all --force --volumes
