@@ -1,0 +1,15 @@
+on:
+  schedule:
+    # covidtracking.com updates at 4pm, we run at 5pm for some wiggle room.
+    - cron: '0 21 * * *'
+  repository_dispatch:
+    types: fetch-recorded-data
+
+jobs:
+  fetch-recorded-data:
+    name: Fetch recorded case and intervention data
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Updating recorded data in staging database..."
+          curl -X POST --no-progress-meter --max-time 300 --fail -H "Authorization: Bearer ${{ secrets.API_SHARED_SECRET }}" ${{ secrets.API_URL }}/api/fetch-data

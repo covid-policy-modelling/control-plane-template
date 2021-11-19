@@ -39,6 +39,13 @@ As a result the example job is configured to use [self-hosted runners](https://d
 Because we are mounting local storage in to the containers, it is very important that when using self-hosted runners the `Cleanup` step of the workflow is present and always executed.
 This ensures that data from previous runs is not able to pollute the current run.
 
+## Scheduled tasks
+
+The control-plane is also responsible for starting scheduled tasks on the infrastructure.
+At present, this is limited to running the daily fetch of case and intervention data.
+This is initiated by the `fetch-recorded-data` workflow.
+If you are setting up a control-plane for a development environment, (i.e. without a dedicated web-ui), you should disable this workflow.
+
 ## Secrets
 
 The workflow uses [secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets) as a mechanism to inject both credentials and configuration information would be burdensome or risky to store in the workflow file itself.
@@ -66,6 +73,12 @@ The shared secret for the instance of the [web-ui](https://github.com/covid-poli
 
 ```shell script
 API_SHARED_SECRET
+```
+
+For the scheduled tasks, you also need to specify the endpoint of the web-ui (unless you have disabled the relevant workflows).
+
+```shell script
+API_URL
 ```
 
 ### GitHub Packages
