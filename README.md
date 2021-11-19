@@ -1,8 +1,8 @@
 # Covid Modeling Control Plane
 
-Control plane environment where all model executions occur.
+Control plane environment where all model simulations occur.
 
-This model is meant to be used as a [template to create similar repositories](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) for use a control planes when executing models.
+This repository is meant to be used as a [template to create similar repositories](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) for use as a control plane when executing simulations.
 
 ## Run Simulation
 
@@ -42,6 +42,7 @@ This ensures that data from previous runs is not able to pollute the current run
 ## Secrets
 
 The workflow uses [secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets) as a mechanism to inject both credentials and configuration information would be burdensome or risky to store in the workflow file itself.
+The [infrastructure-template](https://github.com/covid-policy-modelling/web-ui) contains configuration for setting these values, but you can set them manually if you choose not to use that.
 
 ### Active Version
 
@@ -69,7 +70,7 @@ API_SHARED_SECRET
 
 ### GitHub Packages
 
-All of the Docker images that we have used to date are stored in [GitHub Packages](https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images) and required credentials with appropriate (read-only) permissions for all the images.
+All of the Docker images that we have used to date are stored in [GitHub Packages](https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images) and require credentials with appropriate (read-only) permissions for all the images.
 More about how to authenticate can be found in [the documentation](https://docs.github.com/en/free-pro-team@latest/packages/publishing-and-managing-packages/about-github-packages#authenticating-to-github-packages).
 Note that the built-in Actions token (`secrets.GITHUB_TOKEN`) can access packages stored on this same repository; to access packages stored in other repositories, such as the `model-runner` repo, you may need to create a GitHub bot user with access to the repo and obtain a Personal Access Token for it.
 
@@ -100,13 +101,10 @@ KEEP_ARTIFACTS=input,output,log
 
 ## Example: Multiple environments with promotion
 
-We had three environments and corresponding control planes setup for testing new models and code:
+We have used three environments (`dev`, `staging`, and `prod`) and corresponding control planes setup for testing new models and code.
+You may wish to use a different set of environments, but we expect having more than one will be quite common.
 
-* dev
-* staging
-* prod
-
-Each environment will need to be its own distinct repo within your organization.
+Each environment will need to have its own distinct control plane repo within your organization.
 
 The majority of common changes (upgrading model and runner versions) can be done by simply change the corresponding Secret in each environment when you have deemed the change ready for promotion.
 
@@ -116,16 +114,13 @@ Any changes that we made to the workflow or control plane repo itself can be mig
 
 Check out the three control plane repositories.
 Sibling directories are useful.
-- dev
-- staging
-- prod
 
 **Merging dev into staging**:
 
-1. Navigate to your checkout of `dev-control-plane`.
+1. Navigate to your checkout of `control-plane-dev`.
 1. Add a remote for `staging`:
    ```
-   git remote add staging git@github.com:<your_org>/staging-control-plane.git
+   git remote add staging git@github.com:<your_org>/control-plane-staging.git
    ```
 1. Update `master` and push to a branch on `staging`:
    ```
@@ -137,10 +132,10 @@ Sibling directories are useful.
 
 **Merging staging into prod**:
 
-1. Navigate to your checkout of `staging-control-plane`.
+1. Navigate to your checkout of `control-plane-staging`.
 1. Add a remote for prod:
    ```
-   git remote add prod git@github.com:<your_org>/prod-control-plane.git
+   git remote add prod git@github.com:<your_org>/control-plane-prod.git
    ```
 1. Update `master` and push to a branch on `prod`:
    ```

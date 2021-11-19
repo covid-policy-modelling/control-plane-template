@@ -5,18 +5,12 @@ services:
     image: ghcr.io/covid-policy-modelling/model-runner/model-runner:${RUNNER_VERSION:-master}
     environment:
       - GITHUB_RUN_ID
-      - GITHUB_EVENT_PATH
       - API_SHARED_SECRET
-      - API_URL
-      - MODEL_RUNNER_OUTPUT_DIR=/data/output
       - AZURE_STORAGE_ACCOUNT
       - AZURE_STORAGE_CONTAINER
       - AZURE_STORAGE_KEY
       - DOCKER_USER
       - DOCKER_PASSWORD
-      - WOLFRAM_USER
-      - WOLFRAM_PASSWORD
-      - HOST_WORK_DIR=${GITHUB_WORKSPACE}
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./input:/data/input:rw"

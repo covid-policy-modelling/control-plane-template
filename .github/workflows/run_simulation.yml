@@ -5,9 +5,6 @@ on:
   repository_dispatch:
     types: run-simulation
 
-env:
-  GITHUB_REPO: ${{ github.repository }}
-
 jobs:
   # This workflow contains a single job called "run"
   run:
