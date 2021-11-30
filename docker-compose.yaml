@@ -11,6 +11,7 @@ services:
       - AZURE_STORAGE_KEY
       - DOCKER_USER
       - DOCKER_PASSWORD
+      - HOST_WORK_DIR=${GITHUB_WORKSPACE}
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./input:/data/input:rw"
